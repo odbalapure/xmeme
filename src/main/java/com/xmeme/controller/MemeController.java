@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xmeme.dto.Meme;
@@ -60,17 +59,21 @@ public class MemeController {
 	}
 
 	@GetMapping("/memes")
-	public ResponseEntity<List<Meme>> getAllMemes(@RequestParam(required = false) String searchFor) {
+	public ResponseEntity<List<Meme>> getAllMemes(@Valid GetMemeRequest getMemeRequest) {
 		List<Meme> memeList = memeRepositoryService.findAllMemes();
 
 		if (memeList.size() == 0 || memeList == null) {
+			System.err.println("No memes present in the DB.");
 			return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
 		}
 		
-		if (searchFor != null) {
+		if (getMemeRequest.getSearchFor() != null) {
 			// return search results
-			System.out.println("Search parameter is not empty: " + searchFor);
-			List<Meme> memeSearchList = memeService.getMemeBySearch(searchFor);
+			System.out.println("*****************************************************************");
+			System.out.println("Search parameter is not empty: " + getMemeRequest.getSearchFor());
+			System.out.println("*****************************************************************");
+
+			List<Meme> memeSearchList = memeService.getMemeBySearch(getMemeRequest.getSearchFor());
 			return new ResponseEntity<>(memeSearchList, HttpStatus.OK);
 		}
 

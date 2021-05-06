@@ -16,30 +16,32 @@ public class MemeServiceImpl implements MemeService {
 
 	@Autowired
 	private MemeRepositoryService memeRepositoryService;
-	
+
+	List<List<Meme>> listOfListMeme = new ArrayList<>();
+
 	@Override
 	public List<Meme> getMemeBySearch(String searchFor) {
-	    List<List<Meme>> listOfListMeme = new ArrayList<>(); 
 
-	    if (!searchFor.isEmpty()) {
-	      listOfListMeme.add(memeRepositoryService.getMemesByOwner(searchFor));
-	      listOfListMeme.add(memeRepositoryService.getMemesByCaption(searchFor));
-	    }  
+		if (!searchFor.isEmpty()) {
+			listOfListMeme.add(memeRepositoryService.getMemesByOwner(searchFor));
+			listOfListMeme.add(memeRepositoryService.getMemesByCaption(searchFor));
 
-	    Set<String> memeSet = new HashSet<>();
-	    List<Meme> memeList = new ArrayList<>();
-	    for (List<Meme> setToList : listOfListMeme) {
-	      for (Meme meme : setToList) {
-	        if (!memeSet.contains(meme.getMemeId())) {
-	          memeList.add(meme);
-	          memeSet.add(meme.getMemeId());
-	        }
-	      }
-	    }
-	    
-	    System.out.println(memeList);
+			Set<String> memeSet = new HashSet<>();
+			List<Meme> memeList = new ArrayList<>();
+			for (List<Meme> setToList : listOfListMeme) {
+				for (Meme meme : setToList) {
+					if (!memeSet.contains(meme.getMemeId())) {
+						memeList.add(meme);
+						memeSet.add(meme.getMemeId());
+					}
+				}
+			}
+			
+			System.out.println(memeList);
+			return memeList;
+		}
 
-	    return memeList;
-	  }
+		return new ArrayList<Meme>();
+	}
 
 }

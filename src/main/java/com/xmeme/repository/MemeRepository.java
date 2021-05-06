@@ -14,16 +14,16 @@ public interface MemeRepository extends MongoRepository<MemeEntity, String> {
 	@Query("{'memeId': '?0'}")
 	Optional<MemeEntity> findMemeById(String memeId);
 
-	// multi select operations
+	// multiple select operations
 	@Query("{'owner': {$regex: '.*?0.*', $options: 'i'}}")
 	Optional<List<MemeEntity>> findMemeByOwner(String owner);
 
-	@Query("{'name': {$regex: '.*?0.*', $options: 'i'}}")
+	@Query("{'owner': {$regex: ?0}}")
 	Optional<List<MemeEntity>> findMemeByExactOwner(String owner);
 
-	@Query("{'caption': {$regex: '.*?0.*', $options: 'i'}}")
+	@Query("{'caption': {$regex: ?0}}")
 	Optional<List<MemeEntity>> findMemeByCaption(String name);
-	
+
 	// delete operation
 	@Query(value = "{'memeId' : ?0}", delete = true)
 	public void deleteById(String id);
