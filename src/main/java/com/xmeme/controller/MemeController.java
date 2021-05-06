@@ -69,9 +69,7 @@ public class MemeController {
 		
 		if (getMemeRequest.getSearchFor() != null) {
 			// return search results
-			System.out.println("*****************************************************************");
 			System.out.println("Search parameter is not empty: " + getMemeRequest.getSearchFor());
-			System.out.println("*****************************************************************");
 
 			List<Meme> memeSearchList = memeService.getMemeBySearch(getMemeRequest.getSearchFor());
 			return new ResponseEntity<>(memeSearchList, HttpStatus.OK);
