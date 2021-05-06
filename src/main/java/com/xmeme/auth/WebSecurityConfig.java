@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/xmeme/post").hasAnyAuthority("ADMIN", "USER")
             .antMatchers("/xmeme/meme/**").permitAll()
             .antMatchers("/xmeme/memes").permitAll()
+            .antMatchers("/xmeme").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin().permitAll()
@@ -54,4 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .exceptionHandling().accessDeniedPage("/403");
     }
+    
+	/*
+	 * @Override public void configure(WebSecurity web) throws Exception {
+	 * web.ignoring().antMatchers("/xmeme"); }
+	 */
 }

@@ -37,7 +37,7 @@ public class MemeController {
 	/**
 	 * Print a welcome message and list of API end points
 	 */
-	@GetMapping(value = { "", "/", " " })
+	@GetMapping("")
 	public String welcomeToXMeme() {
 		return "<html>\n" + "<header><title>XMEME</title></header>\n" + "<body>\n" + "<div>\n"
 				+ "<h1>Hi there, Welcome to XMEME!</h1>\n" + "<ul>"
@@ -47,17 +47,7 @@ public class MemeController {
 				+ "<li>Search meme using meme id - localhost:8081/xmeme/meme/007</li>" + "</ul>\n" + "</div>\n"
 				+ "</body>\n" + "</html>";
 	}
-
-	@GetMapping("/user")
-	public String user() {
-		return ("<h1>Welcome User</h1>");
-	}
-
-	@GetMapping("/admin")
-	public String admin() {
-		return ("<h1>Welcome Admin</h1>");
-	}
-
+	
 	@GetMapping("/memes")
 	public ResponseEntity<List<Meme>> getAllMemes(@Valid GetMemeRequest getMemeRequest) {
 		List<Meme> memeList = memeRepositoryService.findAllMemes();
