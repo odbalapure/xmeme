@@ -95,8 +95,16 @@ public class MemeController {
 		try {
 			Meme meme = new Meme(getMemeResquest.getMemeId(), getMemeResquest.getOwner(), getMemeResquest.getCaption(),
 					getMemeResquest.getUrl());
-			memeRepositoryService.postMeme(meme);
 			
+			// check for duplicate meme
+			Meme memeResposne = memeRepositoryService.findMeme(meme.getMemeId());
+			
+			if (memeResposne != null) {
+				System.err.println("Meme cannot be posted. Meme with duplicate MEME ID found.");
+				return new ResponseEntity<>("Sorry, your meme cannot be posted", HttpStatus.CONFLICT);
+			}
+			
+			memeRepositoryService.postMeme(meme);				
 			return new ResponseEntity<>("Hey! Your Meme was posted.", HttpStatus.CREATED);
 		} catch (Exception e) {
 			System.err.println("Internal server error while posting meme...");
