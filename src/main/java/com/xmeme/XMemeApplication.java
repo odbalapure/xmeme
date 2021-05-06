@@ -9,12 +9,6 @@ public class XMemeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(XMemeApplication.class, args);
-		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String str = "pass";
-		String encode = encoder.encode(str);
-		
-		System.out.println("Encoded Pass: " +encode);
 	}
 
 }
