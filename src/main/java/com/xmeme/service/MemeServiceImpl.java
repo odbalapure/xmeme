@@ -36,8 +36,7 @@ public class MemeServiceImpl implements MemeService {
 					}
 				}
 			}
-			
-			System.out.println(memeList);
+
 			return memeList;
 		}
 

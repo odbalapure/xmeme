@@ -48,6 +48,8 @@ public class MemeController {
 				+ "</body>\n" + "</html>";
 	}
 	
+	
+	
 	@GetMapping("/memes")
 	public ResponseEntity<List<Meme>> getAllMemes(@Valid GetMemeRequest getMemeRequest) {
 		List<Meme> memeList = memeRepositoryService.findAllMemes();
@@ -87,9 +89,8 @@ public class MemeController {
 					getMemeResquest.getUrl());
 			
 			// check for duplicate meme
-			Meme memeResposne = memeRepositoryService.findMeme(meme.getMemeId());
-			
-			if (memeResposne != null) {
+			Meme memeResposne = memeRepositoryService.findMeme(getMemeResquest.getMemeId());
+			if (memeResposne.getMemeId() != null) {
 				System.err.println("Meme cannot be posted. Meme with duplicate MEME ID found.");
 				return new ResponseEntity<>("Sorry, your meme cannot be posted", HttpStatus.CONFLICT);
 			}

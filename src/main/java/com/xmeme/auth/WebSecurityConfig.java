@@ -45,20 +45,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         	.antMatchers("/xmeme/delete/**").hasAuthority("ADMIN")
             .antMatchers("/xmeme/edit/**").hasAnyAuthority("ADMIN")
             .antMatchers("/xmeme/post").hasAnyAuthority("ADMIN", "USER")
-            .antMatchers("/xmeme/meme/**").permitAll()
-            .antMatchers("/xmeme/memes").permitAll()
-            .antMatchers("/xmeme").permitAll()
+            .antMatchers("/user/register").permitAll()
             .anyRequest().authenticated()
             .and()
-            .formLogin().permitAll()
+            .formLogin().permitAll().defaultSuccessUrl("/xmeme/memes", true)
             .and()
             .logout().permitAll()
             .and()
             .exceptionHandling().accessDeniedPage("/403");
     }
     
-	/*
-	 * @Override public void configure(WebSecurity web) throws Exception {
-	 * web.ignoring().antMatchers("/xmeme"); }
-	 */
+	
+	 @Override public void configure(WebSecurity web) throws Exception {
+		 web.ignoring().antMatchers("/xmeme"); 
+		 web.ignoring().antMatchers("/xmeme/memes"); 
+		 web.ignoring().antMatchers("/xmeme/meme/**"); 
+	 }
+	
 }

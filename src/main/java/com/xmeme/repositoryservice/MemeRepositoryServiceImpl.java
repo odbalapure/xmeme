@@ -122,7 +122,6 @@ public class MemeRepositoryServiceImpl implements MemeRepositoryService {
 		List<Meme> memeList = new ArrayList<>();
 
 		Optional<List<MemeEntity>> memeByCaption = memeRepository.findMemeByCaption(searchFor);
-
 		if (memeByCaption.isPresent()) {
 			List<MemeEntity> memeEntityList = memeByCaption.get();
 

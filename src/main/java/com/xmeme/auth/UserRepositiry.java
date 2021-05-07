@@ -1,10 +1,8 @@
-package com.xmeme.repository;
+package com.xmeme.auth;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import com.xmeme.auth.User;
 
 public interface UserRepositiry extends JpaRepository<User, Long> {
 	
