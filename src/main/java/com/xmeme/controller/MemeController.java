@@ -24,7 +24,6 @@ import com.xmeme.repositoryservice.MemeRepositoryService;
 import com.xmeme.service.MemeService;
 
 @RestController
-@RequestMapping("/xmeme")
 @CrossOrigin(origins = "http://localhost:8080")
 public class MemeController {
 	
@@ -33,7 +32,7 @@ public class MemeController {
 	
 	@Autowired
 	private MemeService memeService;
-
+	
 	/**
 	 * Print a welcome message and list of API end points
 	 */
@@ -47,7 +46,6 @@ public class MemeController {
 				+ "<li>Search meme using meme id - localhost:8081/xmeme/meme/007</li>" + "</ul>\n" + "</div>\n"
 				+ "</body>\n" + "</html>";
 	}
-	
 	
 	
 	@GetMapping("/memes")
@@ -92,7 +90,7 @@ public class MemeController {
 			Meme memeResposne = memeRepositoryService.findMeme(getMemeResquest.getMemeId());
 			if (memeResposne.getMemeId() != null) {
 				System.err.println("Meme cannot be posted. Meme with duplicate MEME ID found.");
-				return new ResponseEntity<>("Sorry, your meme cannot be posted", HttpStatus.CONFLICT);
+				return new ResponseEntity<>("Sorry, your meme cannot be posted.", HttpStatus.CONFLICT);
 			}
 			
 			memeRepositoryService.postMeme(meme);				
@@ -108,6 +106,12 @@ public class MemeController {
 		try {
 			Meme meme = new Meme(getMemeRequest.getMemeId(), getMemeRequest.getOwner(), getMemeRequest.getCaption(),
 					getMemeRequest.getUrl());
+	
+			Meme memeResponse = memeRepositoryService.findMeme(getMemeRequest.getMemeId());
+			if (memeResponse.getMemeId() == null) {
+				return new ResponseEntity<>("Meme cannot be edited, meme does not exist", HttpStatus.NOT_FOUND);
+			}
+			
 			memeRepositoryService.editMeme(meme);
 		} catch (Exception e) {
 			System.err.println("Internal server error while editing meme...");
@@ -120,6 +124,12 @@ public class MemeController {
 	@DeleteMapping("/delete/{memeId}")
 	public ResponseEntity<String> deleteMeme(@PathVariable String memeId) {
 		try {
+			Meme meme = memeRepositoryService.findMeme(memeId);
+			
+			if (meme == null || meme.getMemeId() == null) {
+				return new ResponseEntity<>("Deletion not possible, the user does not exist.", HttpStatus.NOT_FOUND);
+			}
+			
 			memeRepositoryService.deleteMeme(memeId);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
@@ -129,8 +139,13 @@ public class MemeController {
 	}
 
 	@DeleteMapping("/deleteall")
-	public ResponseEntity<HttpStatus> deleteAllTutorials() {
+	public ResponseEntity<String> deleteAllTutorials() {	
 		try {
+			List<Meme> memes = memeRepositoryService.findAllMemes();
+			if (memes.size() == 0) {
+				return new ResponseEntity<>("Database is empty, nothing to delete!", HttpStatus.NO_CONTENT); 
+			}
+			
 			memeRepositoryService.deleteAllMemes();
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
