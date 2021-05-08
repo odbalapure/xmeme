@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class UserController {
 
 	@Autowired
 	private UserRepositiry userReposiotry;
-	
+
 	@PostMapping("/user/register")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 		try {
@@ -33,9 +34,9 @@ public class UserController {
 			} catch (NullPointerException e) {
 				System.out.println("User name is not taken, continuing for registration...");
 			}
-			
+
 			User _user = new User();
-			
+
 			// encrypt the password
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			String rawPassword = user.getPassword();
@@ -58,21 +59,30 @@ public class UserController {
 	@GetMapping("/user/get")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> userList = userReposiotry.findAll();
-	
+
 		return new ResponseEntity<>(userList, HttpStatus.OK);
 	}
-	
-	
-	/*
-	 * @PutMapping("/user/activate") public String activateUser(@RequestBody User
-	 * user) { User userResponse =
-	 * userReposiotry.getUserByUsername(user.getUsername());
-	 * userResponse.setUsername(user.getUsername());
-	 * userResponse.setPassword(user.getPassword()); userResponse.setEnabled(true);
-	 * 
-	 * userReposiotry.save(userResponse);
-	 * 
-	 * return "User activated!"; }
-	 */
-	
+
+	@PutMapping("/user/activate/{user}")
+	public ResponseEntity<String> activateUser(@PathVariable String user) {
+		User userResponse = userReposiotry.getUserByUsername(user);
+		
+		try {
+			if (userResponse.getUsername() == null) {
+				System.out.println("User does not exist!");
+			}
+		} catch (NullPointerException e) {
+			return new ResponseEntity<>("User does not exist, cannot be activated!", HttpStatus.NOT_FOUND);
+		}
+		
+		if (userResponse.isEnabled()) {
+			return new ResponseEntity<>("User already activated!", HttpStatus.CONFLICT);
+		}
+		
+		userResponse.setEnabled(true);
+		userReposiotry.save(userResponse);
+			
+		return new ResponseEntity<>("User activated!", HttpStatus.OK);
+	}
+
 }
