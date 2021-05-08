@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -24,8 +25,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty
 	private String username;
+	
+	@NotEmpty
 	private String password;
+	
 	private boolean enabled;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

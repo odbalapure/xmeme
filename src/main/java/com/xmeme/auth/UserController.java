@@ -1,16 +1,19 @@
 package com.xmeme.auth;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ManageUsersController {
+public class UserController {
 
 	@Autowired
 	private UserRepositoryService userRepositoryService;
@@ -18,7 +21,7 @@ public class ManageUsersController {
 	@Autowired
 	private UserRepositiry userReposiotry;
 	
-	@PostMapping("/register")
+	@PostMapping("/user/register")
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 		try {
 			User userResponse = userReposiotry.getUserByUsername(user.getUsername());
@@ -52,11 +55,24 @@ public class ManageUsersController {
 		}
 	}
 
+	@GetMapping("/user/get")
+	public ResponseEntity<List<User>> getAllUsers() {
+		List<User> userList = userReposiotry.findAll();
 	
-	@PutMapping("/user/edit")
-	public String activateUser() {
-		return "User activated!";
+		return new ResponseEntity<>(userList, HttpStatus.OK);
 	}
 	
+	
+	/*
+	 * @PutMapping("/user/activate") public String activateUser(@RequestBody User
+	 * user) { User userResponse =
+	 * userReposiotry.getUserByUsername(user.getUsername());
+	 * userResponse.setUsername(user.getUsername());
+	 * userResponse.setPassword(user.getPassword()); userResponse.setEnabled(true);
+	 * 
+	 * userReposiotry.save(userResponse);
+	 * 
+	 * return "User activated!"; }
+	 */
 	
 }

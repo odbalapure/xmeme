@@ -43,19 +43,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 web.ignoring().antMatchers("/xmeme"); 
 		 web.ignoring().antMatchers("/xmeme/memes"); 
 		 web.ignoring().antMatchers("/xmeme/meme/**");
-		 web.ignoring().antMatchers("/register");
+		 web.ignoring().antMatchers("/user/register");
 	 }
  
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
-			.antMatchers("/xmeme/delete/**").hasAuthority("ROLE_ADMIN")
-			.antMatchers("/xmeme/edit/**").hasAnyAuthority("ROLE_ADMIN")
-			.antMatchers("/xmeme/post").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-			.antMatchers("/register").permitAll()
+			.antMatchers("/xmeme/delete/**").hasAuthority("ADMIN")
+			.antMatchers("/xmeme/edit").hasAuthority("ADMIN")
+			.antMatchers("/user/get").hasAuthority("ADMIN")
+			.antMatchers("/user/activate").hasAuthority("ADMIN")
+			.antMatchers("/xmeme/post").hasAnyAuthority("ADMIN", "USER")
 			.anyRequest().authenticated()
-			.and()
-			.httpBasic()
+			// .and()
+			// .httpBasic()
 			.and() 
 			.formLogin().permitAll().defaultSuccessUrl("/memes")
 			.and()
