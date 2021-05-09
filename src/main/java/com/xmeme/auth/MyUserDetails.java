@@ -9,6 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.xmeme.dto.Role;
+import com.xmeme.dto.User;
+
 public class MyUserDetails implements UserDetails {
 
 	private User user;

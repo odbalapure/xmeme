@@ -1,4 +1,4 @@
-package com.xmeme.auth;
+package com.xmeme.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

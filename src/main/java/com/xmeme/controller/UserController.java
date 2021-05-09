@@ -1,5 +1,6 @@
-package com.xmeme.auth;
+package com.xmeme.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +14,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xmeme.dto.User;
+import com.xmeme.service.UserService;
+
 @RestController
 public class UserController {
 
+	private static final String USER_API = "/user";
+	private static final String REGISTER_USER = "/register";
+	private static final String GET_ALL_USER = "/get";
+	private static final String ACTIVATE_USER = "/activate";
+	
 	@Autowired
-	private UserRepositoryService userRepositoryService;
-
-	@Autowired
-	private UserRepositiry userReposiotry;
-
-	@PostMapping("/user/register")
+	private UserService userService;
+	
+	@PostMapping(USER_API + REGISTER_USER)
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 		try {
-			User userResponse = userReposiotry.getUserByUsername(user.getUsername());
+			User userResponse = userService.getUser(user.getUsername());
+			
 			try {
 				if (userResponse.getUsername().equals(user.getUsername())) {
 					return new ResponseEntity<>(user.getUsername() + " username is already taken!",
@@ -46,7 +53,7 @@ public class UserController {
 			_user.setUsername(user.getUsername());
 			_user.setPassword(encodedPassword);
 
-			userRepositoryService.registerUser(_user);
+			userService.registerUser(_user);
 
 			return new ResponseEntity<>("User registration complete, welcome " + user.getUsername() + "!",
 					HttpStatus.CREATED);
@@ -56,33 +63,45 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/user/get")
+	@GetMapping(USER_API + GET_ALL_USER)
 	public ResponseEntity<List<User>> getAllUsers() {
-		List<User> userList = userReposiotry.findAll();
+		List<User> userList = userService.getAllUsers();
 
+		try {
+			if (userList == null || userList.size() == 0) {
+				return new ResponseEntity<>(new ArrayList<User>(), HttpStatus.NOT_FOUND);
+			}
+		} catch (NullPointerException e) {
+			System.out.println("No users present DB or fetch operation failed!");
+		}
+		
 		return new ResponseEntity<>(userList, HttpStatus.OK);
 	}
 
-	@PutMapping("/user/activate/{user}")
-	public ResponseEntity<String> activateUser(@PathVariable String user) {
-		User userResponse = userReposiotry.getUserByUsername(user);
+	@PutMapping(USER_API + ACTIVATE_USER +  "/{userName}")
+	public ResponseEntity<String> activateUser(@PathVariable String userName) {
+		User user = userService.getUser(userName);
 		
 		try {
-			if (userResponse.getUsername() == null) {
+			if (user.getUsername() == null) {
 				System.out.println("User does not exist!");
 			}
 		} catch (NullPointerException e) {
+			
 			return new ResponseEntity<>("User does not exist, cannot be activated!", HttpStatus.NOT_FOUND);
 		}
 		
-		if (userResponse.isEnabled()) {
+		if (user.isEnabled()) {
 			return new ResponseEntity<>("User already activated!", HttpStatus.CONFLICT);
 		}
 		
-		userResponse.setEnabled(true);
-		userReposiotry.save(userResponse);
+		// enable the user
+		user.setEnabled(true);
+		// update the user record
+		userService.activateUser(user);
 			
 		return new ResponseEntity<>("User activated!", HttpStatus.OK);
 	}
+	
 
 }
