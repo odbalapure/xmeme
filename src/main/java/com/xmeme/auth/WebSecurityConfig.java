@@ -40,23 +40,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
 	 @Override public void configure(WebSecurity web) throws Exception {		 
-		 web.ignoring().antMatchers("/"); 
-		 web.ignoring().antMatchers("/memes"); 
-		 web.ignoring().antMatchers("meme/**");
+		 web.ignoring().antMatchers("/xmeme"); 
+		 web.ignoring().antMatchers("/xmeme/memes"); 
+		 web.ignoring().antMatchers("/xmeme/meme/**");
 		 web.ignoring().antMatchers("/user/register");
 	 }
  
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
-			.antMatchers("/delete/**").hasAuthority("ADMIN")
-			.antMatchers("/edit").hasAuthority("ADMIN")
+			.antMatchers("/xmeme/delete/**").hasAuthority("ADMIN")
+			.antMatchers("/xmeme/edit").hasAuthority("ADMIN")
 			.antMatchers("/user/get").hasAuthority("ADMIN")
 			.antMatchers("/user/activate/**").hasAuthority("ADMIN")
-			.antMatchers("post").hasAnyAuthority("ADMIN", "USER")
+			.antMatchers("xmeme/post").hasAnyAuthority("ADMIN", "USER")
 			.anyRequest().authenticated()
 			.and() 
-			.formLogin().permitAll().defaultSuccessUrl("/memes")
+			.formLogin().permitAll().defaultSuccessUrl("/xmeme/memes")
 			.and()
 			.logout().permitAll()
 			.and()

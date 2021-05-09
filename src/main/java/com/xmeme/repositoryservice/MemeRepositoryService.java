@@ -21,5 +21,5 @@ public interface MemeRepositoryService {
 	List<Meme> getMemesByOwner(String searchFor);
 	
 	List<Meme> getMemesByCaption(String searchFor);
-	
+
 }

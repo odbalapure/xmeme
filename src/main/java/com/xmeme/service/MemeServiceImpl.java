@@ -16,12 +16,23 @@ public class MemeServiceImpl implements MemeService {
 
 	@Autowired
 	private MemeRepositoryService memeRepositoryService;
-
-	List<List<Meme>> listOfListMeme = new ArrayList<>();
-
+	
+	@Override
+	public List<Meme> getAllMemes() {
+		return memeRepositoryService.findAllMemes();
+	}
+	
+	@Override
+	public Meme getMeme(String memeId) {
+		Meme meme = memeRepositoryService.findMeme(memeId);
+	
+		return meme;
+	}
+	 
 	@Override
 	public List<Meme> getMemeBySearch(String searchFor) {
-
+		List<List<Meme>> listOfListMeme = new ArrayList<>();
+		
 		if (!searchFor.isEmpty()) {
 			listOfListMeme.add(memeRepositoryService.getMemesByOwner(searchFor));
 			listOfListMeme.add(memeRepositoryService.getMemesByCaption(searchFor));
@@ -41,6 +52,26 @@ public class MemeServiceImpl implements MemeService {
 		}
 
 		return new ArrayList<Meme>();
+	}
+	
+	@Override
+	public void postMeme(Meme meme) {
+		memeRepositoryService.postMeme(meme);
+	}
+	
+	@Override
+	public void editMeme(Meme meme) {
+		memeRepositoryService.editMeme(meme);
+	}
+	
+	@Override
+	public void deleteMeme(String memeId) {
+		memeRepositoryService.deleteMeme(memeId);
+	}
+	
+	@Override
+	public void deleteAllMemes() {
+		memeRepositoryService.deleteAllMemes();
 	}
 
 }
