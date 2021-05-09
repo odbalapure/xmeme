@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 web.ignoring().antMatchers("/xmeme/memes"); 
 		 web.ignoring().antMatchers("/xmeme/meme/**");
 		 web.ignoring().antMatchers("/user/register");
+		 web.ignoring().antMatchers("/v2/api-docs");
 	 }
  
     @Override

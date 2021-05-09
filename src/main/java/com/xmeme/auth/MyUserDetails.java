@@ -14,6 +14,11 @@ import com.xmeme.dto.User;
 
 public class MyUserDetails implements UserDetails {
 
+	/**
+	 * User authentication for XMEME 
+	 * Version: 1.0
+	 */
+	private static final long serialVersionUID = 3039695013003188530L;
 	private User user;
 
 	public MyUserDetails(User user) {

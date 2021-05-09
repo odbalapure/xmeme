@@ -22,6 +22,8 @@ import com.xmeme.dto.Meme;
 import com.xmeme.exchange.GetMemeRequest;
 import com.xmeme.service.MemeService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
 public class MemeController {
@@ -43,6 +45,7 @@ public class MemeController {
 	 * Print a welcome message
 	 */
 	@GetMapping(XMEME_API)
+	@ApiOperation(value = "Prints a welcome message on the page.", response = String.class)
 	public String welcomeToXMeme() {
 		return "<html>\n" + "<header><title>XMEME</title></header>\n" + "<body>\n" + "<div>\n"
 				+ "<h1>Hey there, Welcome to XMEME!</h1>\n" + "<ul>"
@@ -58,11 +61,13 @@ public class MemeController {
 	
 	
 	@GetMapping(XMEME_API + GET_MEMES)
+	@ApiOperation(value = "Search parameter is optional", notes = "Returns array containing 50 latest memes objects",
+			response = List.class)
 	public ResponseEntity<List<Meme>> getAllMemes(@Valid GetMemeRequest getMemeRequest) {
 		List<Meme> memeList = memeService.getAllMemes();
 
 		if (memeList.size() == 0 || memeList == null) {
-			System.err.println("No memes present in the DB.");
+			logger.warn("No memes present in the DB.");
 			return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
 		}
 		
@@ -94,6 +99,8 @@ public class MemeController {
 	}
 
 	@GetMapping(XMEME_API + GET_MEME + "/{memeId}")
+	@ApiOperation(value = "Expects a String memeid as input", notes = "Returns a meme object using a unique memeid",
+			response = Meme.class)
 	public ResponseEntity<Meme> getMeme(@PathVariable String memeId) {
 		Meme meme = memeService.getMeme(memeId);
 		logger.info("Meme fetched for Meme ID " +memeId + ": " +meme);
@@ -106,6 +113,7 @@ public class MemeController {
 	}
 
 	@PostMapping(XMEME_API + POST_MEME)
+	@ApiOperation(value = "Expects a JSON meme object", notes = "Method to post a meme", response = String.class)
 	public ResponseEntity<String> postMeme(@Valid @RequestBody GetMemeRequest getMemeResquest) {
 		try {
 			Meme meme = new Meme(getMemeResquest.getMemeId(), getMemeResquest.getOwner(), getMemeResquest.getCaption(),
@@ -129,6 +137,7 @@ public class MemeController {
 	}
 
 	@PutMapping(XMEME_API + EDIT_MEME)
+	@ApiOperation(value = "Expects a JSON meme object", notes = "Method to edit a meme (ADMIN rights needed)", response = String.class)
 	public ResponseEntity<String> updateMeme(@RequestBody GetMemeRequest getMemeRequest) {
 		try {
 			Meme meme = new Meme(getMemeRequest.getMemeId(), getMemeRequest.getOwner(), getMemeRequest.getCaption(),
@@ -152,6 +161,7 @@ public class MemeController {
 	}
 
 	@DeleteMapping(XMEME_API + DELETE_MEME + "/{memeId}")
+	@ApiOperation(value = "Expects a unique String memeid as an input", notes = "Method to delete a meme (ADMIN rights needed)", response = String.class)
 	public ResponseEntity<String> deleteMeme(@PathVariable String memeId) {
 		try {
 			Meme meme = memeService.getMeme(memeId);
@@ -172,6 +182,7 @@ public class MemeController {
 	}
 
 	@DeleteMapping(XMEME_API + DELETE_ALL_MEMES)
+	@ApiOperation(value = "No input needed", notes = "Method to delete all memes (ADMIN rights needed)", response = String.class)
 	public ResponseEntity<String> deleteAllMemes() {	
 		try {
 			List<Meme> memes = memeService.getAllMemes();

@@ -10,7 +10,7 @@ INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('om', '$2a$10$G7
 INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('hari', '$2a$10$G7nFusgNsDTMkbSNBl9h7eSXbq01I6BiFXRh1RM7O0JaI2lP78ck.', '1');
 
 
-# 
+
 CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
