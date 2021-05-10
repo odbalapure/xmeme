@@ -3,6 +3,7 @@ package com.xmeme.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ import com.xmeme.service.UserService;
 @RestController
 public class UserController {
 
+	private final static Logger logger = Logger.getLogger(UserController.class);
+	
 	private static final String USER_API = "/user";
 	private static final String REGISTER_USER = "/register";
 	private static final String GET_ALL_USER = "/get";
@@ -39,7 +42,8 @@ public class UserController {
 							HttpStatus.CONFLICT);
 				}
 			} catch (NullPointerException e) {
-				System.out.println("User name is not taken, continuing for registration...");
+				e.printStackTrace();
+				logger.error("Something went wrong while registering a user...");
 			}
 
 			User _user = new User();
@@ -53,12 +57,13 @@ public class UserController {
 			_user.setUsername(user.getUsername());
 			_user.setPassword(encodedPassword);
 
+			logger.info("Registring the following user: " +_user);
 			userService.registerUser(_user);
-
 			return new ResponseEntity<>("User registration complete, welcome " + user.getUsername() + "!",
 					HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("Something went wrong while registring this user...");
 			return new ResponseEntity<>("User couldn't be registered!", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -72,7 +77,7 @@ public class UserController {
 				return new ResponseEntity<>(new ArrayList<User>(), HttpStatus.NOT_FOUND);
 			}
 		} catch (NullPointerException e) {
-			System.out.println("No users present DB or fetch operation failed!");
+			logger.warn("No user present in the DB!");
 		}
 		
 		return new ResponseEntity<>(userList, HttpStatus.OK);
@@ -87,11 +92,13 @@ public class UserController {
 				System.out.println("User does not exist!");
 			}
 		} catch (NullPointerException e) {
-			
+			e.printStackTrace();
+			logger.warn("User does not exist, cannot be activated!");
 			return new ResponseEntity<>("User does not exist, cannot be activated!", HttpStatus.NOT_FOUND);
 		}
 		
 		if (user.isEnabled()) {
+			logger.info("User already activated!");
 			return new ResponseEntity<>("User already activated!", HttpStatus.CONFLICT);
 		}
 		
@@ -99,7 +106,8 @@ public class UserController {
 		user.setEnabled(true);
 		// update the user record
 		userService.activateUser(user);
-			
+		
+		logger.info("Activating the following user: " +user);
 		return new ResponseEntity<>("User activated!", HttpStatus.OK);
 	}
 	

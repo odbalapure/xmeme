@@ -153,7 +153,7 @@ public class MemeController {
 			logger.info("Meme edited successfully. Meme id: " +meme.getMemeId());
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Internal server error while editing meme...");
+			logger.error("Something went wrong while editing meme...");
 			return new ResponseEntity<>("Meme couldn't be edited!", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
