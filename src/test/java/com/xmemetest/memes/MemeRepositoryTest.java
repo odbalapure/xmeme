@@ -1,4 +1,4 @@
-package com.example.springjpasecurity.memes;
+package com.xmemetest.memes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

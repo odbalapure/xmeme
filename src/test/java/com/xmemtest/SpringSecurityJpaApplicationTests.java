@@ -1,4 +1,4 @@
-package com.example.springjpasecurity;
+package com.xmemtest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
