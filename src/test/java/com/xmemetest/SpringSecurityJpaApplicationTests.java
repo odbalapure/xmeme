@@ -1,4 +1,4 @@
-package com.xmemtest;
+package com.xmemetest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
