@@ -1,18 +1,15 @@
 package com.xmemetest.memes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,52 +17,51 @@ import com.xmeme.XMemeApplication;
 import com.xmeme.dto.Meme;
 import com.xmeme.entity.MemeEntity;
 import com.xmeme.repository.MemeRepository;
+import com.xmeme.repositoryservice.MemeRepositoryService;
 
 @SpringBootTest(classes = { XMemeApplication.class })
-public class MemeRepositoryTest {
+public class MemeRepositoryServiceTest {
 
 	@Autowired
-	MemeRepository memeRepository;
+	private MemeRepository memeRepository;
+	
+	@Autowired
+	private MemeRepositoryService memeRepositoryService;
 
 	@BeforeEach
-	public void setup() throws Exception {
-		List<MemeEntity> memeList = Arrays.asList(
+	void setup() throws Exception {
+		List<MemeEntity> memeEntityList = Arrays.asList(
 				new MemeEntity("0010", "Gomu Gomu", "PM", "www.google.com"),
 				new MemeEntity("0011", "Hari", "Covid", "www.google.com"),
 				new MemeEntity("0012", "Satyam", "Modi", "www.google.com")
 			);
-		memeRepository.saveAll(memeList);
+		memeRepository.saveAll(memeEntityList);
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	void tearDown() throws Exception {
 		memeRepository.deleteAll();
 	}
 
 	@Test
 	void findAllMemeTest() {
-		List<MemeEntity> memeEntityList = memeRepository.findAll();
-		List<Meme> memeList = new ArrayList<>();
-		
-		ModelMapper modelMapper = new ModelMapper();
-		
-		memeEntityList.forEach(memeEntity -> {
-			memeList.add(modelMapper.map(memeEntity, Meme.class));
-		});
-
+		List<Meme> memeList = memeRepositoryService.findAllMemes();
 		assertEquals(3, memeList.size());
 	}
 	
 	@Test
-	void findMeme() {
-		Optional<MemeEntity> meme = memeRepository.findMemeById("0012");		
-		assertTrue(meme.isPresent());
+	void findMemeTest() {
+		Meme meme = memeRepositoryService.findMeme("0012");		
+		assertNotNull(meme);
 	}
 	
 	@Test
-	void findMeme_NotFound() {
-		Optional<MemeEntity> meme = memeRepository.findMemeById("009");
-		assertFalse(meme.isPresent());
+	void findMemeNotFoundTest() {
+		Meme meme = memeRepositoryService.findMeme("009");
+		assertNull(meme.getMemeId());
+		assertNull(meme.getOwner());
+		assertNull(meme.getCaption());
+		assertNull(meme.getUrl());
 	}
 	
 }
