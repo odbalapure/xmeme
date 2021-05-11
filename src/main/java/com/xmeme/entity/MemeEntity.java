@@ -24,6 +24,14 @@ public class MemeEntity {
 	@NotNull
 	private String url;
 
+	public MemeEntity(@NotNull String memeId, @NotNull String owner, @NotNull String caption, @NotNull String url) {
+		super();
+		this.memeId = memeId;
+		this.owner = owner;
+		this.caption = caption;
+		this.url = url;
+	}
+
 	public ObjectId get_id() {
 		return _id;
 	}

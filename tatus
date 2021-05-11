@@ -1,0 +1,89 @@
+warning: LF will be replaced by CRLF in pom.xml.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in src/test/java/com/example/springjpasecurity/SpringSecurityJpaApplicationTests.java.
+The file will have its original line endings in your working directory
+[1mdiff --git a/pom.xml b/pom.xml[m
+[1mindex 19f8251..75dd932 100644[m
+[1m--- a/pom.xml[m
+[1m+++ b/pom.xml[m
+[36m@@ -109,6 +109,14 @@[m
+ 			<version>2.9.2</version>[m
+ 		</dependency>[m
+ [m
+[32m+[m		[32m<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->[m
+[32m+[m		[32m<dependency>[m
+[32m+[m			[32m<groupId>com.h2database</groupId>[m
+[32m+[m			[32m<artifactId>h2</artifactId>[m
+[32m+[m			[32m<version>1.4.197</version>[m
+[32m+[m			[32m<scope>test</scope>[m
+[32m+[m		[32m</dependency>[m
+[32m+[m
+ [m
+ [m
+ 	</dependencies>[m
+[1mdiff --git a/src/main/java/com/xmeme/entity/MemeEntity.java b/src/main/java/com/xmeme/entity/MemeEntity.java[m
+[1mindex fdaad7e..d2b8b24 100644[m
+[1m--- a/src/main/java/com/xmeme/entity/MemeEntity.java[m
+[1m+++ b/src/main/java/com/xmeme/entity/MemeEntity.java[m
+[36m@@ -24,6 +24,14 @@[m [mpublic class MemeEntity {[m
+ 	@NotNull[m
+ 	private String url;[m
+ [m
+[32m+[m	[32mpublic MemeEntity(@NotNull String memeId, @NotNull String owner, @NotNull String caption, @NotNull String url) {[m
+[32m+[m		[32msuper();[m
+[32m+[m		[32mthis.memeId = memeId;[m
+[32m+[m		[32mthis.owner = owner;[m
+[32m+[m		[32mthis.caption = caption;[m
+[32m+[m		[32mthis.url = url;[m
+[32m+[m	[32m}[m
+[32m+[m
+ 	public ObjectId get_id() {[m
+ 		return _id;[m
+ 	}[m
+[1mdiff --git a/src/main/java/com/xmeme/service/UserServiceImpl.java b/src/main/java/com/xmeme/service/UserServiceImpl.java[m
+[1mindex 7fa669c..d335013 100644[m
+[1m--- a/src/main/java/com/xmeme/service/UserServiceImpl.java[m
+[1m+++ b/src/main/java/com/xmeme/service/UserServiceImpl.java[m
+[36m@@ -13,25 +13,25 @@[m [mpublic class UserServiceImpl implements UserService {[m
+ [m
+ 	@Autowired[m
+ 	private UserRepositoryService userRepositoryService;[m
+[31m-	[m
+[32m+[m
+ 	@Override[m
+ 	public List<User> getAllUsers() {[m
+ 		return userRepositoryService.getAllUsers();[m
+ 	}[m
+[31m-	[m
+[32m+[m
+ 	@Override[m
+ 	public void registerUser(User user) {[m
+ 		userRepositoryService.registerUser(user);[m
+ 	}[m
+[31m-	[m
+[32m+[m
+ 	@Override[m
+ 	public User getUser(String userName) {[m
+ 		return userRepositoryService.getUser(userName);[m
+ 	}[m
+[31m-	[m
+[32m+[m
+ 	@Override[m
+ 	public void activateUser(User user) {[m
+ 		userRepositoryService.activateUser(user);[m
+ 	}[m
+[31m-	[m
+[32m+[m
+ }[m
+[1mdiff --git a/src/test/java/com/example/springjpasecurity/SpringSecurityJpaApplicationTests.java b/src/test/java/com/example/springjpasecurity/SpringSecurityJpaApplicationTests.java[m
+[1mindex 9d04ece..f74d2d1 100644[m
+[1m--- a/src/test/java/com/example/springjpasecurity/SpringSecurityJpaApplicationTests.java[m
+[1m+++ b/src/test/java/com/example/springjpasecurity/SpringSecurityJpaApplicationTests.java[m
+[36m@@ -5,7 +5,6 @@[m [mimport static org.junit.jupiter.api.Assertions.assertEquals;[m
+ import org.junit.jupiter.api.Test;[m
+ import org.springframework.boot.test.context.SpringBootTest;[m
+ [m
+[31m-@SpringBootTest[m
+ class SpringSecurityJpaApplicationTests {[m
+ [m
+ 	@Test[m

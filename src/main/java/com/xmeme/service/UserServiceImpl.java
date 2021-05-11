@@ -13,25 +13,25 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepositoryService userRepositoryService;
-	
+
 	@Override
 	public List<User> getAllUsers() {
 		return userRepositoryService.getAllUsers();
 	}
-	
+
 	@Override
 	public void registerUser(User user) {
 		userRepositoryService.registerUser(user);
 	}
-	
+
 	@Override
 	public User getUser(String userName) {
 		return userRepositoryService.getUser(userName);
 	}
-	
+
 	@Override
 	public void activateUser(User user) {
 		userRepositoryService.activateUser(user);
 	}
-	
+
 }
