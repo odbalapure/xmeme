@@ -72,7 +72,7 @@ public class MemeControllerTest {
 	
 	
 	@Test
-    public void find_bookId_OK() throws Exception {
+    public void getMeme() throws Exception {
 
         mockMvc.perform(get("/xmeme/meme/0010"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

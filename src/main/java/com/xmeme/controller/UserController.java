@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xmeme.dto.User;
 import com.xmeme.service.UserService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 public class UserController {
 
@@ -32,6 +34,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping(USER_API + REGISTER_USER)
+	@ApiOperation(value = "Method to register a user", notes = "Method is accessible to all type of users", response = String.class)
 	public ResponseEntity<String> registerUser(@RequestBody User user) {
 		try {
 			User userResponse = userService.getUser(user.getUsername());
@@ -69,6 +72,7 @@ public class UserController {
 	}
 
 	@GetMapping(USER_API + GET_ALL_USER)
+	@ApiOperation(value = "Fetch list of all users", notes = "Admin rights required to perform this operation", response = List.class)
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> userList = userService.getAllUsers();
 
@@ -84,6 +88,7 @@ public class UserController {
 	}
 
 	@PutMapping(USER_API + ACTIVATE_USER +  "/{userName}")
+	@ApiOperation(value = "Activate a user for which userName is mandatory is an input", notes = "Admin rights required to perform this operation", response = String.class)
 	public ResponseEntity<String> activateUser(@PathVariable String userName) {
 		User user = userService.getUser(userName);
 		
