@@ -56,6 +56,17 @@ public class MemeRepositoryServiceImpl implements MemeRepositoryService {
 	@Override
 	public void postMeme(Meme meme) {
 		ModelMapper modelMapper = new ModelMapper();
+		
+		List<MemeEntity> memeEntityList = memeRepository.findAll();
+		Integer id = 1;
+		if (memeEntityList.size() == 0) {
+			id = 1;
+		} else {
+			id = Integer.parseInt(memeEntityList.get(memeEntityList.size() - 1).getMemeId());
+			id += 1;
+		}
+		
+		meme.setMemeId(String.valueOf(id));
 		memeRepository.save(modelMapper.map(meme, MemeEntity.class));
 	}
 

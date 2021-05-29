@@ -31,6 +31,9 @@ public class MemeEntity {
 		this.caption = caption;
 		this.url = url;
 	}
+	
+	public MemeEntity() {
+	}
 
 	public ObjectId get_id() {
 		return _id;

@@ -28,7 +28,6 @@ public class MemeServiceTest {
 	
 	@Test
 	void getAllMemesTest() {
-		
 		Mockito.when(memeRepositoryService.findAllMemes()).thenReturn(Arrays.asList(
 					new Meme("0010", "Gomu ", "PM", "www.google.com"),
 					new Meme("0011", "Hari", "Covid", "www.google.com"),
@@ -40,34 +39,27 @@ public class MemeServiceTest {
 		assertEquals("PM", memeList.get(0).getCaption());
 		assertEquals("Covid", memeList.get(1).getCaption());
 		assertEquals("Modi", memeList.get(2).getCaption());
-		
 	}
 	
 	@Test
     void getMemeTest() {
-		
 		Mockito.when(memeRepositoryService.findMeme("001")).thenReturn(
 					new Meme("001", "Om", "PM", "www.google.com")
 				);
 		Meme meme = memeService.getMeme("001");
 		
 		assertEquals("Om", meme.getOwner());
-		assertEquals("PM", meme.getCaption());
-		
+		assertEquals("PM", meme.getCaption());	
 	}
 	
 	@Test
 	void getMemeNotFoundTest() {
-		
 		Mockito.when(memeRepositoryService.findMeme("001")).thenReturn(new Meme());
 		
 		Meme meme = memeService.getMeme("001");
 		
 		assertNull(meme.getMemeId());
-		assertNull(meme.getOwner());
-		
+		assertNull(meme.getOwner());	
 	}
-	
-	
-	
+
 }

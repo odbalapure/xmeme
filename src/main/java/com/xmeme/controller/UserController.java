@@ -3,6 +3,8 @@ package com.xmeme.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xmeme.dto.User;
+import com.xmeme.exchange.GetUserAuthRequest;
 import com.xmeme.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,13 +38,13 @@ public class UserController {
 	
 	@PostMapping(USER_API + REGISTER_USER)
 	@ApiOperation(value = "Method to register a user", notes = "Method is accessible to all type of users", response = String.class)
-	public ResponseEntity<String> registerUser(@RequestBody User user) {
+	public ResponseEntity<String> registerUser(@Valid @RequestBody GetUserAuthRequest user) {
 		try {
-			User userResponse = userService.getUser(user.getUsername());
+			User userResponse = userService.getUser(user.getUserName());
 			
 			try {
-				if (userResponse.getUsername().equals(user.getUsername())) {
-					return new ResponseEntity<>(user.getUsername() + " username is already taken!",
+				if (userResponse.getUsername().equals(user.getUserName())) {
+					return new ResponseEntity<>(user.getUserName() + " username is already taken!",
 							HttpStatus.CONFLICT);
 				}
 			} catch (NullPointerException e) {
@@ -57,12 +60,12 @@ public class UserController {
 			String encodedPassword = encoder.encode(rawPassword);
 
 			// username password to be saved
-			_user.setUsername(user.getUsername());
+			_user.setUsername(user.getUserName());
 			_user.setPassword(encodedPassword);
 
 			logger.info("Registring the following user: " +_user);
 			userService.registerUser(_user);
-			return new ResponseEntity<>("User registration complete, welcome " + user.getUsername() + "!",
+			return new ResponseEntity<>("User registration complete, welcome " + user.getUserName() + "!",
 					HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();

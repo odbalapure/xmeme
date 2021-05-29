@@ -43,8 +43,7 @@ public class MemeControllerTest {
 	}
 
 	@Test
-    void getAllMemeTest() 
-    {
+    void getAllMemeTest() {
         // given
 		List<Meme> memeList = Arrays.asList(
 				new Meme("0010", "Gomu", "PM", "www.google.com"),
@@ -61,8 +60,7 @@ public class MemeControllerTest {
         assertEquals(memeControllerList.size(), 3);
         assertEquals(memeControllerList.get(0).getMemeId(), "0010");
         assertEquals(memeControllerList.get(0).getOwner(), "Gomu");
-        assertEquals(memeControllerList.get(0).getCaption(), "PM");
-        
+        assertEquals(memeControllerList.get(0).getCaption(), "PM");     
     }
 	
 	@Test
@@ -73,7 +71,6 @@ public class MemeControllerTest {
 	
 	@Test
     public void getMeme() throws Exception {
-
         mockMvc.perform(get("/xmeme/meme/0010"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -83,7 +80,6 @@ public class MemeControllerTest {
                 .andExpect(jsonPath("$.url", is("www.google.com")));
 
         verify(memeService, times(1)).getMeme("0010");
-
     }
 		
 }
