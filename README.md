@@ -26,5 +26,5 @@
 | Swagger Documentation         |  /v2/api-docs               |  **NA**
 | Delete Meme                   |  /xmeme/delete/**           |  Meme ID
 | Edit Meme                     |  /xmeme/edit                |  Comments
-| Post Meme                     |  /meme/post                 | Owner name, Comments & URL
+| Post Meme                     |  /meme/post                 | Owner name, Comments & Meme URL
 | Activate User                 | /user/activate/**           | User ID
