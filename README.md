@@ -7,7 +7,7 @@
 4. Admins can activate/deactivate users 
 
 ### Technologies 
-> Spring Boot, Spring Security, Jackson, MySQL, MongoDB 
+> Spring Boot, Spring Security, Spring Data, JUnit 5, Mockito 2, MySQL, MongoDB, Swagger 2 
 
 ### Use case diagram
 ![Xmeme - Use Case](https://user-images.githubusercontent.com/83666636/120932998-d105f000-c715-11eb-823f-fe45640942bc.png)
