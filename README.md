@@ -17,11 +17,14 @@
 
 ### REST Endpoints
 
-|   Description                 |  Mappings                   |  Input        |
-|  ------------                 | -----------                 | --------------|
-| Get list of all memes         |  /xmeme/memes               |             
-| See a specific memem          |  /xmeme/meme/**             |
-| Register User                 |  /user/register             | 
-| Swagger Documentation         |  /v2/api-docs               |
-| Delete Meme                   |  /xmeme/delete/**           | 
-| 
+|   Description                 |  Mappings                   |  Input/Paramters     
+|  ------------                 | -----------                 | ---------------------|
+| Get list of all memes         |  /xmeme/memes               |  NA         
+| Search memes based on captions/owner | /xmeme/memes?searchFor="" |   
+|  See a specific meme          |  /xmeme/meme/**             |  Meme ID
+| Register User                 |  /user/register             |  Username, Password
+| Swagger Documentation         |  /v2/api-docs               |  NA
+| Delete Meme                   |  /xmeme/delete/**           |  Meme ID
+| Edit Meme                     |  /xmeme/edit                |  Comments
+| Post Meme                     |  /meme/post                 | Owner name, Comments, URL
+| Activate User                 | /user/activate/**           | User ID
