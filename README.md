@@ -14,3 +14,14 @@
 
 ### Class Diagram
 ![Xmeme - Class Diagram](https://user-images.githubusercontent.com/83666636/120933007-da8f5800-c715-11eb-9b98-33c6ee35133e.png)
+
+### REST Endpoints
+
+|   Description                 |  Mappings                   |  Input        |
+|  ------------                 | -----------                 | --------------|
+| Get list of all memes         |  /xmeme/memes               |             
+| See a specific memem          |  /xmeme/meme/**             |
+| Register User                 |  /user/register             | 
+| Swagger Documentation         |  /v2/api-docs               |
+| Delete Meme                   |  /xmeme/delete/**           | 
+| 
