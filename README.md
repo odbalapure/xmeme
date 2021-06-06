@@ -20,11 +20,11 @@
 |   Description                 |  Mappings                   |  Input/Paramters     
 |  ------------                 | -----------                 | ---------------------|
 | Get list of all memes         |  /xmeme/memes               |  **NA**         
-| Search memes based on captions/owner | /xmeme/memes?searchFor="" | Caption/Owen
+| Search memes based on captions/owner | /xmeme/memes?searchFor="" | Caption/Owner name
 |  See a specific meme          |  /xmeme/meme/**             |  Meme ID
-| Register User                 |  /user/register             |  Username, Password
+| Register User                 |  /user/register             |  Username & Password
 | Swagger Documentation         |  /v2/api-docs               |  **NA**
 | Delete Meme                   |  /xmeme/delete/**           |  Meme ID
 | Edit Meme                     |  /xmeme/edit                |  Comments
-| Post Meme                     |  /meme/post                 | Owner name, Comments, URL
+| Post Meme                     |  /meme/post                 | Owner name, Comments & URL
 | Activate User                 | /user/activate/**           | User ID
